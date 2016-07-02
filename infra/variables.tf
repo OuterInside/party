@@ -2,6 +2,10 @@ variable "ami_id" {
   default = "ami-374db956"
 }
 
+variable "vpc_id" {
+  default = "vpc-3fbd995a"
+}
+
 variable "instance_type" {
   default = "t2.micro"
 }
