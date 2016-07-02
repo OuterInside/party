@@ -1,0 +1,12 @@
+package: github.com/OuterInside/party/server
+import:
+- package: github.com/valyala/fasthttp
+- package: github.com/labstack/echo
+  subpackages:
+  - engine/fasthttp
+- package: github.com/klauspost/compress
+  subpackages:
+  - flate
+- package: github.com/valyala/bytebufferpool
+- package: github.com/klauspost/cpuid
+- package: github.com/klauspost/crc32

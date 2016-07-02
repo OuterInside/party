@@ -1,0 +1,20 @@
+hash: 46efc0f8e9a9c0472bbfa4ad3f573b896fdb37be06de6dc4f2bc70d605a8ee07
+updated: 2016-07-03T05:00:08.663680273+09:00
+imports:
+- name: github.com/klauspost/compress
+  version: 14eb9c4951195779ecfbec34431a976de7335b0a
+  subpackages:
+  - flate
+- name: github.com/klauspost/cpuid
+  version: 09cded8978dc9e80714c4d85b0322337b0a1e5e0
+- name: github.com/klauspost/crc32
+  version: 19b0b332c9e4516a6370a0456e6182c3b5036720
+- name: github.com/labstack/echo
+  version: c00d017178d23261895b096b6e39e9b6bbca37dc
+  subpackages:
+  - engine/fasthttp
+- name: github.com/valyala/bytebufferpool
+  version: a517d2d1537f5b02e9f6c23d4794160c6c2bc157
+- name: github.com/valyala/fasthttp
+  version: 97d96cb3b7feaf22ce9b813313cd8ae20b3589b9
+devImports: []
