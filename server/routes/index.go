@@ -46,6 +46,8 @@ func New(e *echo.Echo) {
 
 	e.POST("/leave/:id", leave)
 	e.GET("/leave/:id", leave)
+
+	e.GET("/status", status)
 }
 
 // 範囲内に入ったイベント
@@ -56,15 +58,17 @@ func enter(c echo.Context) (err error) {
 		return
 	}
 
+	partID := player.Play()
+	log.Println("partID:", partID)
+
 	id := hex.EncodeToString(random)
 	clientM.Lock()
 	defer clientM.Unlock()
-	clientM.Map[id] = &entities.Client{}
+	clientM.Map[id] = &entities.Client{
+		PartID: partID,
+	}
 
 	startTime := player.GetStartTime()
-
-	partID := player.Play()
-	log.Println("partID:", partID)
 
 	return c.JSON(http.StatusOK, &entities.EntryResponse{
 		ID:       id,
@@ -85,7 +89,7 @@ func leave(c echo.Context) (err error) {
 	log.Println("id:", id)
 
 	if client, ok := clientM.Map[id]; ok {
-		player.Stop(client.Part)
+		player.Stop(client.PartID)
 		delete(clientM.Map, id)
 		return c.JSON(http.StatusOK, &entities.LeaveResponse{
 			Message: "ok",
@@ -95,5 +99,21 @@ func leave(c echo.Context) (err error) {
 	log.Printf("ID:%s not found!\n", id)
 	return c.JSON(http.StatusBadRequest, &entities.LeaveResponse{
 		Message: fmt.Sprintf("ID:%s not found!", id),
+	})
+}
+
+func status(c echo.Context) (err error) {
+	clientM.Lock()
+	defer clientM.Unlock()
+
+	startTime := player.GetStartTime()
+
+	return c.JSON(http.StatusOK, &entities.StatusResponse{
+		Units:    player.GetUnits(),
+		Start:    startTime.Format(time.RFC3339),
+		Stop:     startTime.Add(duration).Format(time.RFC3339),
+		Duration: int(duration / time.Millisecond),
+		Clients:  clientM.Map,
+		Parts:    player.GetParts(),
 	})
 }
