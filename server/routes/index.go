@@ -4,13 +4,13 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
-	"log"
 	"net/http"
 	"sync"
 	"time"
 
 	"github.com/OuterInside/party/server/entities"
 	"github.com/OuterInside/party/server/models"
+	"github.com/Sirupsen/logrus"
 	"github.com/labstack/echo"
 )
 
@@ -59,7 +59,7 @@ func enter(c echo.Context) (err error) {
 	}
 
 	partID := player.Play()
-	log.Println("partID:", partID)
+	logrus.Debugln("partID:", partID)
 
 	id := hex.EncodeToString(random)
 	clientM.Lock()
@@ -86,7 +86,7 @@ func leave(c echo.Context) (err error) {
 	defer clientM.Unlock()
 
 	id := c.Param("id")
-	log.Println("id:", id)
+	logrus.Debugln("id:", id)
 
 	if client, ok := clientM.Map[id]; ok {
 		player.Stop(client.PartID)
@@ -96,7 +96,7 @@ func leave(c echo.Context) (err error) {
 		})
 	}
 
-	log.Printf("ID:%s not found!\n", id)
+	logrus.Warnln("ID:%s not found!\n", id)
 	return c.JSON(http.StatusBadRequest, &entities.LeaveResponse{
 		Message: fmt.Sprintf("ID:%s not found!", id),
 	})

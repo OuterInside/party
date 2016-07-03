@@ -10,3 +10,4 @@ import:
 - package: github.com/valyala/bytebufferpool
 - package: github.com/klauspost/cpuid
 - package: github.com/klauspost/crc32
+- package: github.com/Sirupsen/logrus

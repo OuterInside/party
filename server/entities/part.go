@@ -2,8 +2,8 @@ package entities
 
 // Part structure
 type Part struct {
-	ID    int
-	Count int64
+	ID    int   `json:"id"`
+	Count int64 `json:"count"`
 }
 
 // Parts is part slice alias

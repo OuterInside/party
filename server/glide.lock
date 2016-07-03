@@ -1,10 +1,12 @@
-hash: 46efc0f8e9a9c0472bbfa4ad3f573b896fdb37be06de6dc4f2bc70d605a8ee07
-updated: 2016-07-03T05:00:08.663680273+09:00
+hash: 7d9cc091947772815ca3f86c9d80890ed4a30be2043535f573a967e45d91e485
+updated: 2016-07-03T19:11:02.907492343+09:00
 imports:
 - name: github.com/klauspost/compress
   version: 14eb9c4951195779ecfbec34431a976de7335b0a
   subpackages:
   - flate
+  - gzip
+  - zlib
 - name: github.com/klauspost/cpuid
   version: 09cded8978dc9e80714c4d85b0322337b0a1e5e0
 - name: github.com/klauspost/crc32
@@ -13,8 +15,33 @@ imports:
   version: c00d017178d23261895b096b6e39e9b6bbca37dc
   subpackages:
   - engine/fasthttp
+  - engine
+  - log
+- name: github.com/labstack/gommon
+  version: 722aa12d41c236ce78ff48eac1cafe0107ecdc9d
+  subpackages:
+  - log
+  - color
+- name: github.com/mattn/go-colorable
+  version: 9056b7a9f2d1f2d96498d6d146acd1f9d5ed3d59
+- name: github.com/mattn/go-isatty
+  version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+- name: github.com/Sirupsen/logrus
+  version: f3cfb454f4c209e6668c95216c4744b8fddb2356
 - name: github.com/valyala/bytebufferpool
   version: a517d2d1537f5b02e9f6c23d4794160c6c2bc157
 - name: github.com/valyala/fasthttp
   version: 97d96cb3b7feaf22ce9b813313cd8ae20b3589b9
+  subpackages:
+  - fasthttputil
+- name: github.com/valyala/fasttemplate
+  version: 3b874956e03f1636d171bda64b130f9135f42cff
+- name: golang.org/x/net
+  version: b400c2eff1badec7022a8c8f5bea058b6315eed7
+  subpackages:
+  - context
+- name: golang.org/x/sys
+  version: 62bee037599929a6e9146f29d10dd5208c43507d
+  subpackages:
+  - unix
 devImports: []

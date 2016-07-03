@@ -1,13 +1,13 @@
 package models
 
 import (
-	"log"
 	"sort"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/OuterInside/party/server/entities"
+	"github.com/Sirupsen/logrus"
 )
 
 const playOffset = 0 * time.Second
@@ -43,7 +43,7 @@ func CreatePlayer(duration time.Duration, partSize int) *Player {
 
 func (player *Player) start() {
 	t := <-time.After(player.duration)
-	log.Println("player end:", t)
+	logrus.Infoln("player end:", t)
 
 	// reset
 	atomic.StoreInt64(&player.totalUnits, 0)
@@ -71,7 +71,7 @@ func (player *Player) Play() (partID int) {
 		}
 		// sort
 		sort.Sort(list)
-		// log.Println("list:", list)
+		logrus.Debugln("list:", list)
 		partID = list[0].ID
 	}
 
@@ -79,12 +79,12 @@ func (player *Player) Play() (partID int) {
 	atomic.AddInt64(&player.totalUnits, 1)
 	atomic.AddInt64(&player.units, 1)
 
-	log.Println("totalUnits:", atomic.LoadInt64(&player.totalUnits))
-	log.Println("units:", atomic.LoadInt64(&player.units))
+	logrus.Debugln("totalUnits:", atomic.LoadInt64(&player.totalUnits))
+	logrus.Debugln("units:", atomic.LoadInt64(&player.units))
 
 	// increment part
 	atomic.AddInt64(&player.parts[partID].Count, 1)
-	// log.Println("player.parts:", player.parts)
+	logrus.Debugln("player.parts:", player.parts)
 
 	return
 }
@@ -99,8 +99,8 @@ func (player *Player) Stop(partID int) {
 	atomic.AddInt64(&player.parts[partID].Count, -1)
 	// log.Println("player.parts:", player.parts)
 
-	log.Println("totalUnits:", atomic.LoadInt64(&player.totalUnits))
-	log.Println("units:", atomic.LoadInt64(&player.units))
+	logrus.Debugln("totalUnits:", atomic.LoadInt64(&player.totalUnits))
+	logrus.Debugln("units:", atomic.LoadInt64(&player.units))
 }
 
 // GetStartTime method

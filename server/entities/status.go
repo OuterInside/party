@@ -1,7 +1,5 @@
 package entities
 
-import "github.com/OuterInside/party/server/entities"
-
 // StatusResponse structure
 type StatusResponse struct {
 	Units    int64              `json:"units"`
@@ -9,5 +7,5 @@ type StatusResponse struct {
 	Stop     string             `json:"stop"`
 	Duration int                `json:"duration"`
 	Clients  map[string]*Client `json:"clients"`
-	Parts    []entities.Part    `json:"parts"`
+	Parts    []Part             `json:"parts"`
 }
