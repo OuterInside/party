@@ -33,8 +33,6 @@ func (player *Player) start() {
 
 // Play method
 func (player *Player) Play() {
-	log.Println("totalUnits:", atomic.LoadInt64(&player.totalUnits))
-
 	// 1台目
 	if atomic.LoadInt64(&player.totalUnits) == 0 {
 		player.startM.Lock()
@@ -48,12 +46,17 @@ func (player *Player) Play() {
 	// increment units
 	atomic.AddInt64(&player.totalUnits, 1)
 	atomic.AddInt64(&player.units, 1)
+
+	log.Println("totalUnits:", atomic.LoadInt64(&player.totalUnits))
+	log.Println("units:", atomic.LoadInt64(&player.units))
 }
 
 // Stop method
 func (player *Player) Stop() {
-	log.Println("units:", player.units)
 	atomic.AddInt64(&player.units, -1)
+
+	log.Println("totalUnits:", atomic.LoadInt64(&player.totalUnits))
+	log.Println("units:", atomic.LoadInt64(&player.units))
 }
 
 // GetStartTime method
