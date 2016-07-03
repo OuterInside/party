@@ -14,9 +14,11 @@ import (
 	"github.com/labstack/echo"
 )
 
+const duration = 2*time.Minute + 10*time.Second
+
 var (
-	// set 2:10 (music play time)
-	player  = models.CreatePlayer(2*time.Minute + 10*time.Second)
+	// set 2:10 (music play time), and part size
+	player  = models.CreatePlayer(duration, 4)
 	clientM = &clientManager{
 		Map: make(map[string]*entities.Client),
 	}
@@ -48,7 +50,7 @@ func New(e *echo.Echo) {
 
 // 範囲内に入ったイベント
 func enter(c echo.Context) (err error) {
-	player.Play()
+	partID := player.Play()
 
 	random := make([]byte, 32)
 	_, err = rand.Read(random)
@@ -61,10 +63,15 @@ func enter(c echo.Context) (err error) {
 	defer clientM.Unlock()
 	clientM.Map[id] = &entities.Client{}
 
+	startTime := player.GetStartTime()
+
 	return c.JSON(http.StatusOK, &entities.EntryResponse{
-		ID:    id,
-		Units: player.GetUnits(),
-		Start: player.GetStartTime().Format(time.RFC3339),
+		ID:       id,
+		Units:    player.GetUnits(),
+		Part:     partID,
+		Start:    startTime.Format(time.RFC3339),
+		Stop:     startTime.Add(duration).Format(time.RFC3339),
+		Duration: int(duration / time.Millisecond),
 	})
 }
 
@@ -76,8 +83,8 @@ func leave(c echo.Context) (err error) {
 	id := c.Param("id")
 	log.Println("id:", id)
 
-	if _, ok := clientM.Map[id]; ok {
-		player.Stop()
+	if client, ok := clientM.Map[id]; ok {
+		player.Stop(client.Part)
 		delete(clientM.Map, id)
 		return c.JSON(http.StatusOK, &entities.LeaveResponse{
 			Message: "ok",
