@@ -10,7 +10,7 @@ import (
 	"github.com/OuterInside/party/server/entities"
 )
 
-const playOffset = 10 * time.Second
+const playOffset = 0 * time.Second
 
 // Player structure
 type Player struct {

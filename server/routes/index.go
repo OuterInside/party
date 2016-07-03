@@ -50,8 +50,6 @@ func New(e *echo.Echo) {
 
 // 範囲内に入ったイベント
 func enter(c echo.Context) (err error) {
-	partID := player.Play()
-
 	random := make([]byte, 32)
 	_, err = rand.Read(random)
 	if err != nil {
@@ -64,6 +62,9 @@ func enter(c echo.Context) (err error) {
 	clientM.Map[id] = &entities.Client{}
 
 	startTime := player.GetStartTime()
+
+	partID := player.Play()
+	log.Println("partID:", partID)
 
 	return c.JSON(http.StatusOK, &entities.EntryResponse{
 		ID:       id,
