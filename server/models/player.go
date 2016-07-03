@@ -114,3 +114,10 @@ func (player *Player) GetStartTime() time.Time {
 func (player *Player) GetUnits() int64 {
 	return atomic.LoadInt64(&player.units)
 }
+
+// GetParts method
+func (player *Player) GetParts() []entities.Part {
+	player.partsM.Lock()
+	defer player.partsM.Unlock()
+	return player.parts
+}

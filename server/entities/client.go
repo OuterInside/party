@@ -2,5 +2,5 @@ package entities
 
 // Client structure
 type Client struct {
-	Part int
+	PartID int `json:"part"`
 }
